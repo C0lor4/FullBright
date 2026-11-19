@@ -1,6 +1,6 @@
 id = "fullbright"
 name = "Fullbright"
-version = "1.0.1"
+version = "1.0.2"
 description = "Press G to toggle full brightness in single-player and multiplayer."
 authors = ["C0lor4"]
 api = "0.2"

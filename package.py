@@ -8,8 +8,8 @@ args = parser.parse_args()
 project = Path(__file__).resolve().parent
 output = project / "release" / "fullbright.hmod"
 output.parent.mkdir(exist_ok=True)
-files = [project / "horizon-mod.toml", project / "Cargo.toml", *sorted((project / "src").rglob("*.rs"))]
-files.extend(sorted((project / "assets").rglob("*.json")))
+files = [project / "horizon-mod.toml", project / "Cargo.toml", project / "icon.png", *sorted((project / "src").rglob("*.rs"))]
+files.extend(sorted(p for p in (project / "assets").rglob("*") if p.is_file()))
 with tempfile.TemporaryDirectory(dir=output.parent) as work:
     archive = Path(work) / output.name
     with zipfile.ZipFile(archive, "w", compression=zipfile.ZIP_DEFLATED) as package:

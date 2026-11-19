@@ -21,9 +21,7 @@ fn sync_active(host: &dyn ClientHost) -> bool {
 }
 
 #[derive(Default)]
-struct Fullbright {
-    held: AtomicBool,
-}
+struct Fullbright;
 
 #[mod_api::horizon_mod]
 impl Hooks for Fullbright {
@@ -37,15 +35,15 @@ impl Hooks for Fullbright {
     }
 
     fn client_tick_post(&self, host: &mut dyn ClientHost, _: &mut ClientTickPostEvent) {
-        let active = sync_active(host);
-        let down = host.is_down(ID, KEY);
-        let was_down = self.held.swap(down, Ordering::Relaxed);
         let mut odd = false;
         while host.consume_click(ID, KEY) {
             odd = !odd;
         }
-        if !was_down && (down || odd) && host.playing() && host.on(ID) {
+        if odd && host.playing() && host.on(ID) {
+            let active = sync_active(host);
             host.set_setting(ID, MASTER, if active { "false" } else { "true" });
+            sync_active(host);
+        } else {
             sync_active(host);
         }
     }

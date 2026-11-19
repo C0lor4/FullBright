@@ -1,0 +1,30 @@
+id = "fullbright"
+name = "Fullbright"
+version = "1.0.0"
+description = "Press G to toggle full brightness in single-player and multiplayer."
+authors = []
+api = "0.2"
+side = "client"
+capabilities = ["registries"]
+
+[native]
+game = "26.3"
+horizon = "6d765e0ea3207d5dddeee87b0c64e09222767993"
+mixins = "e59da9094f0c2fdda6c627fe9eff22dec6a906f0"
+
+[[native.mixin]]
+id = "apply_brightness"
+target = "horizon_client::game::options::Game<'_>::hold_fullbright"
+kind = "RETURN"
+helper = "src/mixins/brightness.rs"
+bindings = [
+    { name = "unit", ty = "()", value = "$value" },
+    { name = "game", ty = "&mut Game<'_>", value = "&mut *self" },
+]
+
+# Mirror this nightly's two crate-visible re-exports into the patched game crate.
+[[native.module]]
+id = "fullbright_nightly_scope"
+file = "crates/horizon-client/src/game/modding/api_values/block_state.rs"
+name = "fullbright_nightly_scope"
+source = "src/nightly_scope.rs"

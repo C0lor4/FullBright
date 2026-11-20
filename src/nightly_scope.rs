@@ -1,1 +1,1 @@
-// Keeps API conversion traits visible on the Horizon nightly dd67b76. This module has no runtime behavior.
+// Keeps API conversion traits visible on the pinned Horizon nightly. This module has no runtime behavior.
